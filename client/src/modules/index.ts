@@ -1,4 +1,4 @@
 import { NavBar } from "./NavBar";
-import { InputMessageBlock } from "./InputMessageBlock";
+import { InputBlock } from "./InputBlock";
 
-export { NavBar, InputMessageBlock };
+export { NavBar, InputBlock };

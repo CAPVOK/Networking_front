@@ -1,5 +1,14 @@
 import styled from "@emotion/styled";
-import { CircularProgress, Palette, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  Palette,
+  Typography,
+  keyframes,
+} from "@mui/material";
+import { fadeInLeft, fadeInRight } from "react-animations";
+
+const fadeInLeftAnimation = keyframes`${fadeInLeft}`;
+const fadeInRightAnimation = keyframes`${fadeInRight}`;
 
 export interface IMessageProps {
   msg: string;
@@ -7,7 +16,7 @@ export interface IMessageProps {
   sender: string;
   time: string;
   isError: boolean;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 const MessageWrapper = styled.div<{
@@ -24,13 +33,19 @@ const MessageWrapper = styled.div<{
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border-bottom-left-radius: ${(props) => (props.isUser ? "10px" : "")};
+  // box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 4px ${(props) => (props.theme.palette?.mode === "light" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)")}; 
   border-bottom-right-radius: ${(props) => (props.isUser ? "" : "10px")};
   background-color: ${(props) =>
     props.error
       ? props.theme.palette?.error.main
       : props.theme.palette?.primary?.main};
+  animation: 0.3s
+    ${(props) => (props.isUser ? fadeInRightAnimation : fadeInLeftAnimation)};
 `;
+
 const TextBlockWrapper = styled.div``;
+
 const InfoWrapper = styled.div<{ isUser?: boolean }>`
   position: absolute;
   width: max-content;

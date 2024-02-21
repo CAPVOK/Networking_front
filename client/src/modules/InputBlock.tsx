@@ -3,11 +3,9 @@ import { IconButton, TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/send";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "../core/store";
-import {
-  addMessageToQueue,
-  selectUser,
-} from "../core/store/slices/app.slice";
-import { IMessage } from "../core/types/chat.types";
+import { saveMessage, selectUser } from "../core/store/slices/app.slice";
+import { IMessageRequest } from "../types/chat.types";
+import { useWebSocket } from "../hooks/useWebSocket";
 
 const Wrapper = styled.div`
   padding: 10px;
@@ -16,12 +14,14 @@ const Wrapper = styled.div`
   align-items: flex-end;
 `;
 
-function InputMessageBlock() {
+function InputBlock() {
   const [isSendLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
+
   const buttonRef = useRef<HTMLButtonElement>(null);
   const userName = useSelector(selectUser);
 
+  const { webSocketService } = useWebSocket();
   const dispatch = useDispatch();
 
   const handleSendClick = () => {
@@ -42,18 +42,14 @@ function InputMessageBlock() {
   const sendMessage = () => {
     if (inputValue.trim() !== "") {
       const currentDateTime = new Date().toISOString();
-      /* const messageData: IMessageRequest = {
+      const messageData: IMessageRequest = {
         message: inputValue,
         timestamp: currentDateTime,
         sender: userName,
-      }; */
-      const messageData: IMessage = {
-        message: inputValue,
-        timestamp: currentDateTime,
-        sender: userName,
-        error: false,
       };
-      dispatch(addMessageToQueue(messageData));
+
+      dispatch(saveMessage({ ...messageData, error: false, isLoading: false }));
+      webSocketService.sendMessage(messageData);
       setInputValue("");
     }
   };
@@ -86,4 +82,4 @@ function InputMessageBlock() {
   );
 }
 
-export { InputMessageBlock };
+export { InputBlock };

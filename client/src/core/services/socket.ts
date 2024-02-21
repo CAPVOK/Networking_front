@@ -1,47 +1,75 @@
-import { Client } from "@stomp/stompjs";
 import { toast } from "react-toastify";
+import { IMessage, IMessageRequest } from "../../types/chat.types";
+import { store } from "../store";
+import { saveMessage } from "../store/slices/app.slice";
+import { SOCKET_URL } from "./constants";
 
-let client: Client | null = null;
+class WebSocketService {
+  private socket: WebSocket | null = null;
+  private reconnectInterval: NodeJS.Timeout | null = null;
 
-export const connectToWebSocket = () => {
-  if (!client) {
-    client = new Client({
-      brokerURL: "ws://localhost:8080/ws",
-      reconnectDelay: 6000,
-    });
+  public connect(): void {
+    this.socket = new WebSocket(SOCKET_URL);
 
-    client.onConnect = (frame) => {
-      console.log("Connected: " + frame);
-      toast.error("Соединение установлено.");
+    this.socket.onopen = () => {
+      console.log("WebSocket connection established.");
+      this.stopReconnect();
     };
 
-    client.onStompError = (frame) => {
-      console.log(frame);
-      toast.error("Ошибка подключения.");
+    this.socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+      this.reconnect();
+      toast.error("Ошибка подключения");
     };
 
-    client.onWebSocketError = (event) => {
-      console.log(event);
-      toast.error("Ошибка подключения.");
+    this.socket.onclose = () => {
+      console.log("WebSocket connection closed.");
     };
 
-    client.activate();
+    this.socket.onmessage = (event: MessageEvent) => {
+      try {
+        const messageData: IMessage = JSON.parse(event.data);
+        store.dispatch(saveMessage({ ...messageData, isLoading: false }));
+      } catch (error) {
+        toast.error("Ошибка парсинга");
+      }
+    };
   }
-};
 
-export const disconnectWebSocket = () => {
-  if (client) {
-    client.deactivate();
-  } else {
-    console.error("WebSocket is not connected.");
+  public sendMessage(message: IMessageRequest): void {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
+    } else {
+      toast.error("Не удалось отправить сообщение");
+      console.error("WebSocket connection is not established.");
+    }
   }
-  client = null;
-};
 
-export const sendMessage = (message: string) => {
-  if (client && client.connected) {
-    client.publish({ destination: "/app/sendMessage", body: message });
-  } else {
-    toast.error("Не удалось установить соединение.");
+  public disconnect(): void {
+    if (this.reconnectInterval) {
+      clearInterval(this.reconnectInterval);
+      this.reconnectInterval = null;
+    }
+    if (this.socket) {
+      this.socket.close();
+    } else {
+      console.error("WebSocket connection is not established.");
+    }
   }
-};
+
+  private reconnect(): void {
+    if (this.reconnectInterval) return;
+    this.reconnectInterval = setInterval(() => {
+      this.connect();
+    }, 7000);
+  }
+
+  public stopReconnect(): void {
+    if (this.reconnectInterval) {
+      clearInterval(this.reconnectInterval);
+      this.reconnectInterval = null;
+    }
+  }
+}
+
+export default WebSocketService;

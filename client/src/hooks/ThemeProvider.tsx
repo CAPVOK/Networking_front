@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { selectTheme, saveTheme } from "./core/store/slices/app.slice";
+import { selectTheme, saveTheme } from "../core/store/slices/app.slice";
 
 export const AppThemeProvider = ({ children }: { children: JSX.Element }) => {
   const dispatch = useDispatch();

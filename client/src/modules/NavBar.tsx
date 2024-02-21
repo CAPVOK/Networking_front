@@ -20,10 +20,7 @@ import {
 } from "../core/store/slices/app.slice";
 import { LogoIcon } from "../components/icons/LogoIcon";
 import { ThemeModeSwitch } from "../components/ThemeModeSwitch";
-import {
-  connectToWebSocket,
-  disconnectWebSocket,
-} from "../core/services/socket";
+import { useWebSocket } from "../hooks/useWebSocket";
 
 const Wrapper = styled.div<{ theme?: { palette: Palette } }>`
   padding-inline: 15px;
@@ -57,18 +54,28 @@ const ImageWrapper = styled.div`
 
 function NavBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const userName = useSelector(selectUser);
   const themeMode = useSelector(selectTheme);
 
+  const { webSocketService } = useWebSocket();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const user = localStorage.getItem("userName");
     if (!user) return;
     dispatch(saveUserName(user));
-    connectToWebSocket();
+    createConnection();
+
+    return () => {
+      webSocketService.disconnect();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const createConnection = () => {
+    webSocketService.connect();
+  };
 
   const handleLoginClick = () => {
     setIsModalOpen(true);
@@ -78,7 +85,7 @@ function NavBar() {
     localStorage.removeItem("userName");
     dispatch(saveUserName(""));
     dispatch(clearChat());
-    disconnectWebSocket();
+    webSocketService.disconnect();
   };
 
   const handleModalClose = () => {
@@ -89,7 +96,7 @@ function NavBar() {
     if (!name) return;
     localStorage.setItem("userName", name);
     dispatch(saveUserName(name));
-    connectToWebSocket();
+    createConnection();
   };
 
   const handleChangeMode = () => {

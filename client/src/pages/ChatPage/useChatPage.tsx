@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSelector } from "../../core/store";
 import {
-  selectMessageQueue,
   selectMessages,
   selectUser,
 } from "../../core/store/slices/app.slice";
@@ -10,12 +9,12 @@ export const useChatPage = () => {
   const chatRef = useRef<HTMLDivElement>(null);
 
   const chatMessages = useSelector(selectMessages);
-  const messageQueue = useSelector(selectMessageQueue);
+  // const messageQueue = useSelector(selectMessageQueue);
   const userName = useSelector(selectUser);
 
   useEffect(() => {
     chatRef.current?.scrollTo(0, chatRef.current.scrollHeight);
-  }, [chatMessages, messageQueue]);
+  }, [chatMessages/* , messageQueue */]);
 
   const checkIsFirstMessage = (index: number) => {
     if (index === 0) return true;
@@ -31,6 +30,6 @@ export const useChatPage = () => {
     userName,
     chatRef,
     checkIsFirstMessage,
-    messageQueue,
+    // messageQueue,
   };
 };

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useChatPage } from "./useChatPage";
 import { MessageGroup } from "../../components";
-import { InputMessageBlock, NavBar } from "../../modules";
+import { InputBlock, NavBar } from "../../modules";
 import { Typography } from "@mui/material";
 
 const ChatPageWrapper = styled.div`
@@ -27,8 +27,12 @@ const CenterBlock = styled.div`
 `;
 
 export const ChatPage = () => {
-  const { chatMessages, userName, checkIsFirstMessage, messageQueue, chatRef } =
-    useChatPage();
+  const {
+    chatMessages,
+    userName,
+    checkIsFirstMessage,
+    /* messageQueue, */ chatRef,
+  } = useChatPage();
 
   return (
     <ChatPageWrapper>
@@ -51,9 +55,10 @@ export const ChatPage = () => {
                 sender={messageData.sender}
                 time={messageData.timestamp}
                 isError={messageData.error}
+                isLoading={messageData.isLoading}
               />
             ))}
-            {messageQueue.map((messageData, index) => (
+            {/*  {messageQueue.map((messageData, index) => (
               <MessageGroup
                 key={index}
                 isUserMessage={true}
@@ -63,11 +68,11 @@ export const ChatPage = () => {
                 isError={messageData.error}
                 isLoading={true}
               />
-            ))}
+            ))} */}
           </>
         )}
       </Chat>
-      <InputMessageBlock />
+      <InputBlock />
     </ChatPageWrapper>
   );
 };
