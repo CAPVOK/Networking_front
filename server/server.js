@@ -5,6 +5,7 @@ require("dotenv").config();
 
 // создаем приложение экпресс
 const app = express();
+app.use(express.json());
 const port = process.env.PORT;
 
 // запускаем сервер на порту
