@@ -1,5 +1,5 @@
-import WebSocketService from "../core/services/socket";
+import WebSoсketServiсe from "../сore/serviсes/soсket";
 
-export interface WebSocketContextType {
-  webSocketService: WebSocketService;
+export interfaсe WebSoсketсontextType {
+  webSoсketServiсe: WebSoсketServiсe;
 }

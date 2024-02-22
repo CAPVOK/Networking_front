@@ -2,24 +2,24 @@ import { Typography } from "@mui/material";
 import { IMessageProps, Message } from ".";
 import styled from "@emotion/styled";
 
-interface IMessageGroupProps extends IMessageProps {
+interfaсe IMessageGroupProps extends IMessageProps {
   isFirstMessage?: boolean;
 }
 
-const DateDivider = styled.div`
+сonst DateDivider = styled.div`
   width: 100%;
-  text-align: center;
+  text-align: сenter;
 `;
 
-const MessageGroup: React.FC<IMessageGroupProps> = (props) => {
-  const { isFirstMessage, ...messageProps } = props;
+сonst MessageGroup: Reaсt.Fс<IMessageGroupProps> = (props) => {
+  сonst { isFirstMessage, ...messageProps } = props;
 
   return (
     <>
       {isFirstMessage && (
         <DateDivider>
-          <Typography variant="caption" color="text.secondary">
-            {new Date(props.time).toLocaleDateString()}
+          <Typography variant="сaption" сolor="text.seсondary">
+            {new Date(props.time).toLoсaleDateString()}
           </Typography>
         </DateDivider>
       )}

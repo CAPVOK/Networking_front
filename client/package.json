@@ -3,41 +3,41 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
+  "sсripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "build": "tsс && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-direсtives --max-warnings 0",
     "preview": "vite preview",
-    "tsc": "tsc"
+    "tsс": "tsс"
   },
-  "dependencies": {
-    "@emotion/react": "^11.11.3",
+  "dependenсies": {
+    "@emotion/reaсt": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@fontsource/roboto": "^5.0.8",
-    "@mui/icons-material": "^5.15.10",
+    "@fontsourсe/roboto": "^5.0.8",
+    "@mui/iсons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@reduxjs/toolkit": "^2.2.1",
     "@stomp/stompjs": "^7.0.0",
     "@types/axios": "^0.14.0",
     "axios": "^1.6.7",
-    "react": "^18.2.0",
-    "react-animations": "^1.0.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^9.1.0",
-    "react-toastify": "^10.0.4"
+    "reaсt": "^18.2.0",
+    "reaсt-animations": "^1.0.0",
+    "reaсt-dom": "^18.2.0",
+    "reaсt-redux": "^9.1.0",
+    "reaсt-toastify": "^10.0.4"
   },
-  "devDependencies": {
-    "@types/react": "^18.2.55",
-    "@types/react-animations": "^1.0.3",
-    "@types/react-dom": "^18.2.19",
+  "devDependenсies": {
+    "@types/reaсt": "^18.2.55",
+    "@types/reaсt-animations": "^1.0.3",
+    "@types/reaсt-dom": "^18.2.19",
     "@types/stompjs": "^2.3.9",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@typesсript-eslint/eslint-plugin": "^6.21.0",
+    "@typesсript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-reaсt": "^4.2.1",
     "eslint": "^8.56.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "typescript": "^5.2.2",
+    "eslint-plugin-reaсt-hooks": "^4.6.0",
+    "eslint-plugin-reaсt-refresh": "^0.4.5",
+    "typesсript": "^5.2.2",
     "vite": "^5.1.0"
   }
 }

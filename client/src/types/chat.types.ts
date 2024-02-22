@@ -1,13 +1,13 @@
-export interface IMessageRequest {
+export interfaсe IMessageRequest {
   sender: string;
   timestamp: string;
   message: string;
 }
 
-export interface IMessage extends IMessageRequest {
+export interfaсe IMessage extends IMessageRequest {
   error: boolean;
 }
 
-export interface IClientMessage extends IMessage {
+export interfaсe IсlientMessage extends IMessage {
   isLoading: boolean;
 }
